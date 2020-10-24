@@ -54,16 +54,12 @@ and more
     });
     describe("code", () => {
         it("formats with code fences", () => {
-            expect(convert("```js\nthis is code\n```")).toEqual(`{code:theme=RDark|linenumbers=true|language=javascript}
-this is code
-{code}`);
+            expect(convert("```js\nthis is code\n```")).toEqual("{code:theme=RDark|linenumbers=true|language=javascript}this is code{code}");
         });
         it("formats with indentation", () => {
             expect(convert(`
     // different code
-`)).toEqual(`{code:theme=RDark|linenumbers=true|language=none}
-// different code
-{code}`);
+`)).toEqual("{code:theme=RDark|linenumbers=true|language=none}// different code{code}");
         });
         it("uses the language map (lowercased) and code styling options", () => {
             expect(convert("```Moo\ncow()\n```", {
@@ -73,25 +69,23 @@ this is code
                 codeStyling: {
                     anything: "goes_here"
                 }
-            })).toEqual(`{code:anything=goes_here|language=cowspeak}
-cow()
-{code}`);
+            })).toEqual("{code:anything=goes_here|language=cowspeak}cow(){code}");
         });
         it("allows 20 lines before collapsing", () => {
             expect(convert("```\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n```", {
                 codeStyling: {}
-            })).toEqual("{code:language=none}\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n{code}");
+            })).toEqual("{code:language=none}1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20{code}");
         });
         it("collapses when too big", () => {
             expect(convert("```\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n```", {
                 codeStyling: {}
-            })).toEqual("{code:language=none|collapse=true}\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n{code}");
+            })).toEqual("{code:language=none|collapse=true}1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21{code}");
         });
         it("collapses at a set number", () => {
             expect(convert("```\n1\n2\n3\n```", {
                 codeStyling: {},
                 codeCollapseAt: 2
-            })).toEqual("{code:language=none|collapse=true}\n1\n2\n3\n{code}");
+            })).toEqual("{code:language=none|collapse=true}1\n2\n3{code}");
         });
     });
     describe("codespan", () => {
